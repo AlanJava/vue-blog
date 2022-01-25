@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tgkzxy.mapper.CategoryMapper">
+    <select id="queryAllCategories" resultType="cn.tgkzxy.pojo.Category">
+        select * from category;
+    </select>
+    <insert id="addCategory" parameterType="cn.tgkzxy.pojo.Category">
+        insert into category (`categoryName`)
+        values (#{categoryName})
+    </insert>
+    <select id="queryNumByTid" resultType="int">
+        select cateNum from category where tid= #{tid};
+    </select>
+    <select id="queryByTid" resultType="cn.tgkzxy.pojo.Category">
+        select * from category where tid= #{tid};
+    </select>
+    <update id="updateCateNum">
+        update category set cateNum = #{cateNum}
+                        where tid = #{tid};
+    </update>
+    <update id="updateCateName" parameterType="cn.tgkzxy.pojo.Category">
+        update category set categoryName = #{categoryName}
+                        where tid = #{tid}
+    </update>
+    <delete id="deleteCategory">
+        delete from category where tid = #{tid}
+    </delete>
+</mapper>

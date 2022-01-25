@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tgkzxy.mapper.BlogMapper">
+    <select id="queryAllBlogs" resultType="cn.tgkzxy.pojo.Blog">
+        select * from blog;
+    </select>
+    <select id="queryBlogByCate" resultType="cn.tgkzxy.pojo.Blog">
+        select * from blog where category = #{category};
+    </select>
+    <select id="queryBlogById" resultType="cn.tgkzxy.pojo.Blog" parameterType="integer">
+        select * from blog where cid = #{cid};
+    </select>
+    <insert id="addBlog" parameterType="cn.tgkzxy.pojo.Blog">
+            insert into blog (title,content,created,category,views,introduction)
+            values (
+                    #{title},#{content},#{created},#{category},#{views},#{introduction}
+                   )
+    </insert>
+    <update id="updateBlog" parameterType="cn.tgkzxy.pojo.Blog">
+        update blog set title=#{title},
+                        content=#{content},
+                        created=#{created},
+                        category=#{category},
+                        views=#{views},
+                        introduction=#{introduction}
+                    where cid = #{cid};
+    </update>
+    <delete id="deleteBlog" parameterType="int">
+        delete from blog where cid = #{cid};
+    </delete>
+    <select id="queryBlogByLimit" resultType="cn.tgkzxy.pojo.Blog">
+        select * from blog limit #{startIndex},#{pageSize}
+    </select>
+    <select id="getBlogCount" resultType="integer">
+        select COUNT(*) from blog;
+    </select>
+    <update id="addViews">
+        update blog set views = views+1
+                    where cid = #{cid};
+    </update>
+    <select id="getCategoryCount" resultType="int">
+        select COUNT(category) from blog where category = #{category};
+    </select>
+    <select id="queryLast" resultType="cn.tgkzxy.pojo.Blog">
+        select * from blog order by cid desc limit 1;
+    </select>
+    <select id="queryHotBlog" resultType="cn.tgkzxy.pojo.Blog">
+        SELECT cid,title,views from blog ORDER BY views DESC LIMIT  #{startIndex},#{pageSize}
+    </select>
+</mapper>

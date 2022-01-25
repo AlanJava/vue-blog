@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tgkzxy.mapper.FileMapper">
+    <insert id="addOneFile" parameterType="cn.tgkzxy.pojo.File">
+        insert into file (fileName,dir)
+        values (#{fileName},#{dir});
+    </insert>
+    <insert id="addMoreFile" parameterType="java.util.ArrayList">
+        insert into file (fileName,dir) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{fileName},#{dir})
+        </foreach>
+    </insert>
+    <select id="queryAllFileByLimit" resultType="cn.tgkzxy.pojo.File">
+        select * from file limit #{startIndex},#{pageSize}
+    </select>
+    <select id="getFileCount" resultType="integer">
+        select COUNT(*) from file;
+    </select>
+    <delete id="deleteFile">
+        delete from file where fid = #{fid};
+    </delete>
+    <select id="queryFileByFid" resultType="cn.tgkzxy.pojo.File">
+        select * from file where fid = #{fid};
+    </select>
+</mapper>

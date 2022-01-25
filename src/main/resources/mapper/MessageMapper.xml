@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tgkzxy.mapper.MessageMapper">
+    <resultMap id="MessageMap" type="cn.tgkzxy.pojo.Message">
+        <result column="mid" property="mid"></result>
+        <result column="time" property="time"></result>
+        <result column="mail" property="mail"></result>
+        <result column="touristName" property="touristName"></result>
+
+    </resultMap>
+
+    <select id="queryAllMessageByCid" resultType="cn.tgkzxy.pojo.Message">
+        select * from message where cid = #{cid}
+    </select>
+    <select id="queryAllMessages" resultType="map">
+        select mid,`time`,message, mail, touristName,m.cid,title from message as m
+            left join blog as b
+            on m.cid = b.cid
+    </select>
+    <delete id="deleteMessageByMid" parameterType="int">
+        delete from message where mid = #{mid}
+    </delete>
+    <insert id="addMessage" parameterType="cn.tgkzxy.pojo.Message">
+        insert into message (cid,time,message,mail,touristName)
+        values (#{cid},#{time},#{message},#{mail},#{touristName})
+    </insert>
+    <select id="queryMessageByLimit" resultType="map">
+        select mid,`time`,message, mail, touristName,m.cid,title
+        from message as m
+        left join blog as b
+        on m.cid = b.cid
+        limit #{startIndex},#{pageSize}
+    </select>
+    <select id="getMessageCount" resultType="integer">
+        select COUNT(*) from message;
+    </select>
+    <select id="queryAllMail" resultType="string">
+        select distinct mail from message
+    </select>
+</mapper>
